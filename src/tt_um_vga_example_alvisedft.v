@@ -5,7 +5,7 @@
 
 `default_nettype none
 
-module tt_um_vga_example(
+module tt_um_vga_example_alvisedft(
   input  wire [7:0] ui_in,    // Dedicated inputs
   output wire [7:0] uo_out,   // Dedicated outputs
   input  wire [7:0] uio_in,   // IOs: Input path
@@ -48,14 +48,14 @@ module tt_um_vga_example(
     .hpos(pix_x),
     .vpos(pix_y)
   );
-  
+
   wire [9:0] moving_x = pix_x * counter;
   wire [9:0] moving_y = pix_y + counter;
 
   assign R = video_active ? {moving_x[5], moving_y[2]} : 2'b00;
   assign G = video_active ? {moving_x[6], moving_y[2]} : 2'b00;
   assign B = video_active ? {moving_x[7], moving_y[5]} : 2'b00;
-  
+
   always @(posedge vsync, negedge rst_n) begin
     if (~rst_n) begin
       counter <= 0;
@@ -63,5 +63,5 @@ module tt_um_vga_example(
       counter <= counter + 1;
     end
   end
-  
+
 endmodule
